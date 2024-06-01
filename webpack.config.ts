@@ -8,9 +8,6 @@ module.exports = {
     },
   },
   plugins: [
-    new DotenvPlugin({
-      sample: '.env',
-      path: '.env'
-    })
+    new DotenvPlugin()
   ]
 };

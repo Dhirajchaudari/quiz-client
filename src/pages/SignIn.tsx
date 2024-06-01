@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import {  validateEmail } from "../helper";
 import Layout from "../components/Layout";
 import { DashboardPages } from "../interfaces";
+import Loader from "../Reusable/Loader";
 
 interface SignIn {
   email: string;
@@ -17,7 +18,8 @@ interface SignIn {
 }
 
 const SignIn: React.FC = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [passwordShown, setPasswordShown] = useState(false);
   const [signInInfo, setSignInInfo] = useState<SignIn>({
@@ -28,7 +30,8 @@ const SignIn: React.FC = () => {
 
   const togglePasswordVisibility = () => setPasswordShown((cur) => !cur);
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (e) => {
+    e.preventDefault();
     try {
       const isValidEmail = validateEmail(signInInfo.email);
   
@@ -36,13 +39,13 @@ const SignIn: React.FC = () => {
         setShowError("Please enter a valid email.");
         return;
       }
-
+      setLoading(true);
       const response = await axios.post("https://quiz-server-optimize-2.onrender.com/api/users/login", {
         email: signInInfo.email,
         password: signInInfo.password,
       },
-      { withCredentials: true }
-      );
+      {withCredentials:true});
+      setLoading(false);
 
       console.log(response)
       
@@ -52,6 +55,7 @@ const SignIn: React.FC = () => {
           autoClose: 2000,
           hideProgressBar: true,
         });
+        setLoading(false)
         return;
       }
 
@@ -70,19 +74,21 @@ const SignIn: React.FC = () => {
       navigate(DashboardPages.Dashboard); 
       return
   
-    } catch (error:any) {
+    } catch (error: any) {
+      console.log(error)
       const errorMessage = error.response?.data?.message || "An error occurred";
-      setShowError(errorMessage);
       toast.error(errorMessage, {
         autoClose: 2000,
         hideProgressBar: true,
       });
+      setLoading(false)
       return
     }
   };
 
   return (
     <Layout>
+      <Loader loading={loading} />
 
       <section className="flex items-center justify-center h-screen bg-gray-100 p-4 sm:p-8">
         <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6 sm:p-8">
@@ -92,7 +98,7 @@ const SignIn: React.FC = () => {
           <p className="mb-8 text-gray-600 font-normal text-center">
             Enter your email and password to sign in
           </p>
-          <form action="#" className="text-left">
+          <form onSubmit={handleSignIn} className="text-left">
             <div className="mb-4">
               <Label htmlFor="email">Your Email</Label>
               <Input
@@ -133,7 +139,6 @@ const SignIn: React.FC = () => {
             <Button
               className="bg-gray-800 text-white font-bold py-2 px-4 rounded w-full mt-4"
               disabled={!signInInfo.password || !signInInfo.email}
-              onClick={handleSignIn}
             >
               Sign In
             </Button>
@@ -143,7 +148,7 @@ const SignIn: React.FC = () => {
                 Forgot password?
               </a>
               <a
-                href="https://quiz-server-optimize-2.onrender.com/sign-up"
+                href="https://quiz-app-client-green.vercel.app/sign-up"
                 className="text-blue-gray-600 font-medium"
               >
                 Create account
@@ -152,7 +157,6 @@ const SignIn: React.FC = () => {
           </form>
         </div>
         </section>
-        
     </Layout>
   );
 };

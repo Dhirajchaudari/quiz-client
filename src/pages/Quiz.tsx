@@ -42,7 +42,7 @@ const QuizCreation: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch topics from the backend
+    setLoading(true)
     axios
       .get(`https://quiz-server-optimize-2.onrender.com/api/topics/all-topics`, {
         withCredentials: true,
@@ -50,6 +50,7 @@ const QuizCreation: React.FC = () => {
       .then((response) => {
         setTopics(response.data.topics);
       });
+    setLoading(false)
   }, []);
 
   const toggleTopicSelection = (topicId: string) => {
@@ -77,6 +78,7 @@ const QuizCreation: React.FC = () => {
           autoClose: 2000,
           hideProgressBar: true,
         });
+      setLoading(false);
         return;
       }
 
@@ -85,16 +87,25 @@ const QuizCreation: React.FC = () => {
 
       return;
     } catch (error: any) {
+      setLoading(false);
       toast.error(error.message.toString(), {
         autoClose: 2000,
         hideProgressBar: true,
       });
+      return
     }
   };
 
   const saveTopics = async () => {
     try {
-      // Fetch questions for the selected topics from the backend
+      if (selectedTopics.length === 0) {
+        toast.error("Please select atleast one topic", {
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
+        return;
+      }
+      setLoading(true)
       const response = await axios.post(
         "https://quiz-server-optimize-2.onrender.com/api/topics/save-topics",
         { topics: selectedTopics },
@@ -102,16 +113,19 @@ const QuizCreation: React.FC = () => {
           withCredentials: true,
         }
       );
+      setLoading(false)
       console.log(response?.data.data);
       // setQuestions(response.data);
       setQuizId(response?.data.data);
       await getQuestions(response?.data.data);
+
       return;
     } catch (error: any) {
       toast.error(error.message.toString(), {
         autoClose: 2000,
         hideProgressBar: true,
       });
+      setLoading(false)
     }
   };
 
@@ -135,18 +149,20 @@ const QuizCreation: React.FC = () => {
         }
         return updatedResponses;
       });
-
       // Store the response in the database
       await axios.put(
         "https://quiz-server-optimize-2.onrender.com/api/quiz/save-response",
         response,
         { withCredentials: true }
       );
+      return
     } catch (error: any) {
       toast.error(error.message.toString(), {
         autoClose: 2000,
         hideProgressBar: true,
       });
+      setLoading(false)
+      return
     }
   };
 
@@ -155,6 +171,8 @@ const QuizCreation: React.FC = () => {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       // Quiz completed
+
+      setLoading(true)
       axios.put(
         "https://quiz-server-optimize-2.onrender.com/api/quiz/quiz-completed",
         {
@@ -162,7 +180,9 @@ const QuizCreation: React.FC = () => {
         },
         { withCredentials: true }
       );
+      setLoading(false)
       navigate(`/quiz-result/${quizId}`)
+      return
     }
   };
 

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../components/Layout";
 
 const Home: React.FC = () => {
+  useEffect(() => {
+  },[])
   return (
     <Layout>
       <div className="bg-gray-100 min-h-screen flex flex-col">
