@@ -40,15 +40,14 @@ const SignIn: React.FC = () => {
         return;
       }
       setLoading(true);
-      const response = await axios.post("https://quiz-server-optimize-2.onrender.com/api/users/login", {
+      
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/login`, {
         email: signInInfo.email,
         password: signInInfo.password,
       },
       {withCredentials:true});
       setLoading(false);
 
-      console.log(response)
-      
   
       if (!response.data?.success) {
         toast.error(response.data.message || "Login failed", {

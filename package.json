@@ -1,7 +1,6 @@
 {
   "name": "quiz-app",
   "private": true,
-  "proxy": "https://quiz-server-optimize-2.onrender.com",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -16,6 +15,7 @@
     "@heroicons/react": "^2.1.3",
     "@mui/material": "^5.15.19",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@vitejs/plugin-react-swc": "^3.7.0",
     "axios": "^1.7.2",
     "moment": "^2.30.1",
     "react": "^18.2.0",

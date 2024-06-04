@@ -27,7 +27,7 @@ const VerifyEmail: React.FC = () => {
 
       setLoading(true)
       const response = await axios.post(
-        "https://quiz-server-optimize-2.onrender.com/api/users/verify-email",
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/verify-email`,
         { token }
       );
       setLoading(false)

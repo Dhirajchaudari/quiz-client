@@ -44,7 +44,7 @@ const QuizCreation: React.FC = () => {
   useEffect(() => {
     setLoading(true)
     axios
-      .get(`https://quiz-server-optimize-2.onrender.com/api/topics/all-topics`, {
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/topics/all-topics`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -65,7 +65,7 @@ const QuizCreation: React.FC = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://quiz-server-optimize-2.onrender.com/api/quiz/start-quiz`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/quiz/start-quiz`,
         {
           params: { quizId: quizId }, // Include quizId as a parameter
           withCredentials: true, // Include withCredentials option here
@@ -107,7 +107,7 @@ const QuizCreation: React.FC = () => {
       }
       setLoading(true)
       const response = await axios.post(
-        "https://quiz-server-optimize-2.onrender.com/api/topics/save-topics",
+        `${import.meta.env.VITE_API_BASE_URL}/api/topics/save-topics`,
         { topics: selectedTopics },
         {
           withCredentials: true,
@@ -151,7 +151,7 @@ const QuizCreation: React.FC = () => {
       });
       // Store the response in the database
       await axios.put(
-        "https://quiz-server-optimize-2.onrender.com/api/quiz/save-response",
+        `${import.meta.env.VITE_API_BASE_URL}/api/quiz/save-response`,
         response,
         { withCredentials: true }
       );
@@ -174,7 +174,7 @@ const QuizCreation: React.FC = () => {
 
       setLoading(true)
       axios.put(
-        "https://quiz-server-optimize-2.onrender.com/api/quiz/quiz-completed",
+        `${import.meta.env.VITE_API_BASE_URL}/api/quiz/quiz-completed`,
         {
           quizId: quizId,
         },

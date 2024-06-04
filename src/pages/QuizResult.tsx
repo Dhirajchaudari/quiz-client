@@ -46,12 +46,13 @@ const QuizResult: React.FC = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://quiz-server-optimize-2.onrender.com/api/quiz/result`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/quiz/result`,
           {
             params: { quizId },
             withCredentials: true,
           }
         );
+        console.log(response.data.data.totalScore)
         setLoading(false);
         if (response.data.success) {
           setData(response.data.data);

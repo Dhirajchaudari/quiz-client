@@ -9,7 +9,7 @@ const Leaderboard: React.FC = () => {
 
   useEffect(() => {
     // Fetch leaderboard data from the backend
-    axios.get("https://quiz-server-optimize-2.onrender.com/api/quiz-users/leaderboard",{withCredentials:true}).then((response) => {
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/quiz-users/leaderboard`,{withCredentials:true}).then((response) => {
       setLeaderboardData(response.data.data);
     });
   }, []);

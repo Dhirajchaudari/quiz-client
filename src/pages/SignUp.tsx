@@ -60,7 +60,7 @@ const SignUp: React.FC = () => {
       }
       setLoading(true);
       const response = await axios.post(
-        "https://quiz-server-optimize-2.onrender.com/api/users/register",
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/register`,
         {
           firstName: createUser.firstName,
           lastName: createUser.lastName,
