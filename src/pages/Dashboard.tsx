@@ -11,6 +11,8 @@ const Leaderboard: React.FC = () => {
     // Fetch leaderboard data from the backend
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/quiz-users/leaderboard`,{withCredentials:true}).then((response) => {
       setLeaderboardData(response.data.data);
+      console.log(response.data.data);
+      console.log(import.meta.env.VITE_API_BASE_URL)
     });
   }, []);
 
@@ -40,7 +42,7 @@ const Leaderboard: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {leaderboardData.map((user, index) => (
+              {leaderboardData?.map((user, index) => (
                 <tr key={index} className={index < 3 ? "bg-yellow-200 border-black" : ""}>
                   <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{user.user.firstName} {user.user.lastName}</td>
