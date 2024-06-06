@@ -64,7 +64,11 @@ const Leaderboard: React.FC = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {leaderboardData?.map((user, index) => (
-                <tr key={index} className={index < 3 ? "bg-yellow-200 border-black" : ""}>
+                <tr key={index} className={
+                  index === 2 ? "bg-yellow-200 border-black" :
+                    index === 1 ? "bg-yellow-300 border-black" :
+                      index === 0 ? "bg-yellow-400 border-black":""
+                    }>
                   <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{user.user.firstName} {user.user.lastName}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{user.finalScore}</td>
