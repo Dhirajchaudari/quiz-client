@@ -3,21 +3,42 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
 import moment from "moment"; // Import moment library for date formatting
+import Loader from "../Reusable/Loader";
+import { toast } from "react-toastify";
 
 const Leaderboard: React.FC = () => {
   const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const fecthLeaderboard = async () => {
+    try {
+      setLoading(true)
+      axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/quiz-users/leaderboard`, {
+        withCredentials: true,
+      }).then((response) => {
+        setLeaderboardData(response.data.data);
+      });
+      setLoading(false);
+
+      return
+      
+    } catch (error) {
+      toast.error("Failed to get leaderboard data", {
+        autoClose: 2000,
+        hideProgressBar: true,
+      })
+      return
+    }
+  }
 
   useEffect(() => {
     // Fetch leaderboard data from the backend
-    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/quiz-users/leaderboard`, {
-      withCredentials: true,
-    }).then((response) => {
-      setLeaderboardData(response.data.data);
-    });
-  }, []);
+    fecthLeaderboard()
+    }, []);
 
   return (
     <Layout>
+      <Loader loading={loading} />
       <div className="container mx-auto px-6 py-4">
         <h2 className="text-2xl font-bold mb-4">Leaderboard</h2>
         <div className="overflow-x-auto">

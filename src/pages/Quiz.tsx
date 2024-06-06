@@ -114,7 +114,6 @@ const QuizCreation: React.FC = () => {
         }
       );
       setLoading(false)
-      console.log(response?.data.data);
       // setQuestions(response.data);
       setQuizId(response?.data.data);
       await getQuestions(response?.data.data);
