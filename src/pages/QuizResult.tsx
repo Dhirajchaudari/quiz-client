@@ -7,6 +7,7 @@ import Layout from '../components/Layout';
 import { toast } from 'react-toastify';
 import Loader from '../Reusable/Loader';
 import Button from '../Reusable/Button';
+// import axiosInstance from 
 
 interface Result {
   question: {
