@@ -54,7 +54,9 @@ const VerifyEmail: React.FC = () => {
 
   useEffect(() => {
     // Simulate API call for email verification
-    verifyEmail();
+    if (token) {
+      verifyEmail();
+      }
   }, [token]);
 
   return (
